@@ -26,13 +26,16 @@ using var conn = new NpgsqlConnection(connStr);
 conn.Open();
 
 // Load .sql files and execute on startup
-foreach (var file in Directory.GetFiles("init-sql", "*.sql"))
+foreach (var file in Directory.GetFiles("DB/Init/Tables", "*.sql"))
 {
     var sql = File.ReadAllText(file);
     conn.Execute(sql);
 }
 
-app.MapGet("/", () => "Hello from Minimal API")
+app.MapGet("/", () =>
+    {
+        return conn.QuerySingle("select 'hello' as message");
+    })
     .WithName("Hello")
     .WithOpenApi();
 
