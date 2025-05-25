@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: AppDB
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./API
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=AppDB;Username=postgres;Password=example
+    ports:
+      - "5000:8080"
+    volumes:
+      - ./backend/init-sql:/app/init-sql
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+
+volumes:
+  pgdata:
