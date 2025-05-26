@@ -1,3 +1,7 @@
+using API.Controllers;
+using API.Data;
+using API.Data.Repositories;
+using API.Middleware;
 using Dapper;
 using Npgsql;
 
@@ -8,7 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
+builder.Services.AddScoped<ITransactionAccountRepository, TransactionAccountRepository>();
+
 var app = builder.Build();
+
+app.UseMiddleware<DbExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -18,7 +27,7 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 var connStr = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -38,5 +47,7 @@ app.MapGet("/", () =>
     })
     .WithName("Hello")
     .WithOpenApi();
+
+app.MapTransactionAccountEndpoints();
 
 app.Run();

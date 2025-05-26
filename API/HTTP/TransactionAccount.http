@@ -1,0 +1,61 @@
+@baseurl = http://localhost:5000
+
+###
+GET {{baseurl}}/api/transactionaccounts?entity=MyEntity&PageNumber=1&PageSize=2
+
+###
+GET {{baseurl}}/api/transactionaccounts/MyEntity/2
+
+###
+GET {{baseurl}}/api/transactionaccounts/multiple/MyEntity?rowIds=2,3,4,5,6,7
+
+###
+POST {{baseurl}}/api/transactionaccounts
+Content-Type: application/json
+
+{
+  "entity": "MyEntity",
+  "accountNumber": "123456",
+  "accountName": "Checking",
+  "description": "Main account",
+  "type": "Checking"
+}
+
+###
+POST {{baseurl}}/api/transactionaccounts/multiple
+Content-Type: application/json
+
+[
+  {
+    "entity": "MyEntity",
+    "accountNumber": "123",
+    "accountName": "Checking",
+    "description": "Main account",
+    "type": "Checking"
+  },
+  {
+    "entity": "MyEntity",
+    "accountNumber": "654321",
+    "accountName": "Savings",
+    "description": "Emergency fund",
+    "type": "Savings"
+  }
+]
+
+###
+PUT {{baseurl}}/api/transactionaccounts/3
+Content-Type: application/json
+
+{
+  "entity": "MyEntity",
+  "accountNumber": "testnumber",
+  "accountName": "Updated Name",
+  "description": "Updated description",
+  "type": "Checking"
+}
+
+###
+DELETE {{baseurl}}/api/transactionaccounts/2
+
+###
+DELETE {{baseurl}}/api/transactionaccounts/multiple?rowIds=2,3,4,5,6,7
