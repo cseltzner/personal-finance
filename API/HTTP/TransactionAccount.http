@@ -1,20 +1,20 @@
 @baseurl = http://localhost:5000
 
 ###
-GET {{baseurl}}/api/transactionaccounts?entity=MyEntity&PageNumber=1&PageSize=2
+GET {{baseurl}}/api/transactionaccounts?userId=1&PageNumber=1&PageSize=2
 
 ###
-GET {{baseurl}}/api/transactionaccounts/MyEntity/2
+GET {{baseurl}}/api/transactionaccounts/1/1
 
 ###
-GET {{baseurl}}/api/transactionaccounts/multiple/MyEntity?rowIds=2,3,4,5,6,7
+GET {{baseurl}}/api/transactionaccounts/multiple/1?rowIds=2,3,4,5,6,7
 
 ###
 POST {{baseurl}}/api/transactionaccounts
 Content-Type: application/json
 
 {
-  "entity": "MyEntity",
+  "userId": "1",
   "accountNumber": "123456",
   "accountName": "Checking",
   "description": "Main account",
@@ -27,14 +27,14 @@ Content-Type: application/json
 
 [
   {
-    "entity": "MyEntity",
+    "userId": "1",
     "accountNumber": "123",
     "accountName": "Checking",
     "description": "Main account",
     "type": "Checking"
   },
   {
-    "entity": "MyEntity",
+    "userId": "1",
     "accountNumber": "654321",
     "accountName": "Savings",
     "description": "Emergency fund",
@@ -47,7 +47,7 @@ PUT {{baseurl}}/api/transactionaccounts/3
 Content-Type: application/json
 
 {
-  "entity": "MyEntity",
+  "userId": "1",
   "accountNumber": "testnumber",
   "accountName": "Updated Name",
   "description": "Updated description",

@@ -4,7 +4,7 @@ public class TransactionAccount
 {
     public int RowID { get; set; }
     public string AccountNumber { get; set; } = string.Empty;
-    public string Entity { get; set; } = string.Empty;
+    public string UserId { get; set; } = string.Empty;
     public string? AccountName { get; set; }
     public string? Description { get; set; }
     public string Type { get; set; } = string.Empty; // e.g. Checking, Savings, Credit Card, etc.
@@ -17,7 +17,7 @@ public class TransactionAccountDto
 {
     public int RowID { get; set; }
     public string AccountNumber { get; set; } = string.Empty;
-    public string Entity { get; set; } = string.Empty;
+    public int UserId { get; set; }
     public string? AccountName { get; set; }
     public string? Description { get; set; }
     public string Type { get; set; } = string.Empty; // e.g. Checking, Savings, Credit Card, etc.
@@ -28,7 +28,7 @@ public class TransactionAccountDto
 public class TransactionAccountCreateUpdateDto
 {
     public string AccountNumber { get; set; } = string.Empty;
-    public string Entity { get; set; } = string.Empty;
+    public int UserId { get; set; }
     public string? AccountName { get; set; }
     public string? Description { get; set; }
     public string Type { get; set; } = string.Empty; // e.g. Checking, Savings, Credit Card, etc.

@@ -6,8 +6,8 @@ namespace API.Data.Repositories;
 
 public interface ITransactionAccountRepository
 {
-    Task<IEnumerable<TransactionAccount>> GetTransactionAccountsAsync<T>(string entity, Pagination? pagination);
-    Task<TransactionAccount?> GetTransactionAccountAsync(string entity, int rowId);
+    Task<IEnumerable<TransactionAccount>> GetTransactionAccountsAsync<T>(int userId, Pagination? pagination);
+    Task<TransactionAccount?> GetTransactionAccountAsync(int userId, int rowId);
     Task<int> AddTransactionAccountAsync(TransactionAccountCreateUpdateDto transactionAccount);
     Task<int> UpdateTransactionAccountAsync(int rowId, TransactionAccountCreateUpdateDto transactionAccount);
     Task<int> DeleteTransactionAccountAsync(int rowId);
@@ -15,7 +15,7 @@ public interface ITransactionAccountRepository
 
 public class TransactionAccountRepository(IDbConnectionFactory dbConnectionFactory) : ITransactionAccountRepository
 {
-    public async Task<IEnumerable<TransactionAccount>> GetTransactionAccountsAsync<T>(string entity,
+    public async Task<IEnumerable<TransactionAccount>> GetTransactionAccountsAsync<T>(int userId,
         Pagination? pagination = null)
     {
         using var connection = dbConnectionFactory.CreateConnection();
@@ -23,34 +23,34 @@ public class TransactionAccountRepository(IDbConnectionFactory dbConnectionFacto
         pagination = pagination ?? new Pagination();
 
         const string sql = @"
-                            select rowid, accountnumber, entity, 
+                            select rowid, accountnumber, userid, 
                                    accountname, description, type, createddate, createdby
                             from e_account
-                            where entity = @Entity
+                            where userid = @UserId
                             and voiddate is null
                             order by rowid desc
                             limit @PageSize offset @Offset
                             ";
 
-        var parameters = new { Entity = entity, PageSize = pagination.PageSize, Offset = pagination.Offset };
+        var parameters = new { UserId = userId, PageSize = pagination.PageSize, Offset = pagination.Offset };
 
         return await connection.QueryAsync<TransactionAccount>(sql, parameters);
     }
 
-    public async Task<TransactionAccount?> GetTransactionAccountAsync(string entity, int rowId)
+    public async Task<TransactionAccount?> GetTransactionAccountAsync(int userId, int rowId)
     {
         using var connection = dbConnectionFactory.CreateConnection();
 
         const string sql = @"
-                            select rowid, accountnumber, entity, 
+                            select rowid, accountnumber, userId, 
                                    accountname, description, type, createddate, createdby
                             from e_account
-                            where entity = @Entity
+                            where userId = @UserId
                             and rowid = @RowId
                             and voiddate is null;
                             ";
 
-        var parameters = new { Entity = entity, RowId = rowId };
+        var parameters = new { UserId = userId, RowId = rowId };
 
         return await connection.QuerySingleOrDefaultAsync<TransactionAccount>(sql, parameters);
         ;
@@ -61,15 +61,15 @@ public class TransactionAccountRepository(IDbConnectionFactory dbConnectionFacto
         using var connection = dbConnectionFactory.CreateConnection();
 
         const string sql = @"
-                            insert into e_account (accountnumber, entity, accountname, description, type)
-                            values (@AccountNumber, @Entity, @AccountName, @Description, @Type)
+                            insert into e_account (accountnumber, userId, accountname, description, type)
+                            values (@AccountNumber, @UserId, @AccountName, @Description, @Type)
                             returning rowid;
                             ";
 
         var parameters = new
         {
             transactionAccount.AccountNumber,
-            transactionAccount.Entity,
+            transactionAccount.UserId,
             transactionAccount.AccountName,
             transactionAccount.Description,
             transactionAccount.Type
@@ -88,7 +88,7 @@ public class TransactionAccountRepository(IDbConnectionFactory dbConnectionFacto
         const string sql = @"
                             update e_account
                             set accountnumber = coalesce(@AccountNumber, accountnumber),
-                                entity = coalesce(@Entity, entity),
+                                userId = coalesce(@UserId, userId),
                                 accountname = coalesce(@AccountName, accountname),
                                 description = coalesce(@Description, description),
                                 type = coalesce(@Type, type)
@@ -101,7 +101,7 @@ public class TransactionAccountRepository(IDbConnectionFactory dbConnectionFacto
         {
             RowId = rowId,
             transactionAccount.AccountNumber,
-            transactionAccount.Entity,
+            transactionAccount.UserId,
             transactionAccount.AccountName,
             transactionAccount.Description,
             transactionAccount.Type,

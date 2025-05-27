@@ -9,15 +9,16 @@ public static class TransactionAccountController
 {
     public static void MapTransactionAccountEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/transactionaccounts", async ([FromServices] ITransactionAccountRepository repository, [FromQuery] string entity, [AsParameters] Pagination pagination) =>
+        app.MapGet("/api/transactionaccounts", async ([FromServices] ITransactionAccountRepository repository,
+            [FromQuery] int userId, [AsParameters] Pagination pagination) =>
         {
-            var accounts = await repository.GetTransactionAccountsAsync<TransactionAccountDto>(entity, pagination);
+            var accounts = await repository.GetTransactionAccountsAsync<TransactionAccountDto>(userId, pagination);
             return Results.Ok(accounts);
         });
         
-        app.MapGet("/api/transactionaccounts/{entity}/{rowId:int}", async ([FromServices] ITransactionAccountRepository repository, [FromRoute] string entity, [FromRoute] int rowId) =>
+        app.MapGet("/api/transactionaccounts/{userId}/{rowId:int}", async ([FromServices] ITransactionAccountRepository repository, [FromRoute] int userId, [FromRoute] int rowId) =>
         {
-            var account = await repository.GetTransactionAccountAsync(entity, rowId);
+            var account = await repository.GetTransactionAccountAsync(userId, rowId);
 
             if (account == null)
             {
@@ -27,7 +28,7 @@ public static class TransactionAccountController
             return Results.Ok(account);
         });
         
-        app.MapGet("/api/transactionaccounts/multiple/{entity}", async ([FromServices] ITransactionAccountRepository repository, [FromRoute] string entity, [FromQuery] string rowIds) =>
+        app.MapGet("/api/transactionaccounts/multiple/{userId}", async ([FromServices] ITransactionAccountRepository repository, [FromRoute] int userId, [FromQuery] string rowIds) =>
         {
             var rowIdArr = rowIds.Split(",");
             
@@ -39,7 +40,7 @@ public static class TransactionAccountController
                     return Results.BadRequest($"Invalid rowId: {rowId}");
                 }
                 
-                var account = await repository.GetTransactionAccountAsync(entity, parsedRowId);
+                var account = await repository.GetTransactionAccountAsync(userId, parsedRowId);
                 if (account != null)
                 {
                     accounts.Add(account);
