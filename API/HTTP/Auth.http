@@ -1,0 +1,26 @@
+POST /login HTTP/1.1
+Host: localhost:5000
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "password": "yourpassword"
+}
+
+###
+
+POST /api/auth/register HTTP/1.1
+Host: localhost:5000
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "email": "newuser@example.com",
+  "password": "yourpassword",
+  "firstName": "First",
+  "lastName": "Last"
+}
+
+###
+GET /api/auth/logout HTTP/1.1
+Host: localhost:5000

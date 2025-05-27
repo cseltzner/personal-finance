@@ -14,10 +14,27 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
 builder.Services.AddScoped<ITransactionAccountRepository, TransactionAccountRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/api/auth/login";
+        options.LogoutPath = "/api/auth/logout";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    });
+
+builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 
 app.UseMiddleware<DbExceptionMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -35,7 +52,13 @@ using var conn = new NpgsqlConnection(connStr);
 conn.Open();
 
 // Load .sql files and execute on startup
-foreach (var file in Directory.GetFiles("DB/Init/Tables", "*.sql"))
+var initSqlFiles = new[]
+{
+    "DB/Init/Tables/Users.sql",
+    "DB/Init/Tables/Transactions.sql",
+};
+
+foreach (var file in initSqlFiles)
 {
     var sql = File.ReadAllText(file);
     conn.Execute(sql);
@@ -49,5 +72,6 @@ app.MapGet("/", () =>
     .WithOpenApi();
 
 app.MapTransactionAccountEndpoints();
+app.MapAuthEndpoints();
 
 app.Run();
