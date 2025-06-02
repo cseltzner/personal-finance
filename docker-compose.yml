@@ -16,7 +16,7 @@ services:
     depends_on:
       - db
     environment:
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=AppDB;Username=postgres;Password=example
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=AppDB;Username=postgres;Password=example;Include Error Detail=true
     ports:
       - "5000:8080"
     volumes:

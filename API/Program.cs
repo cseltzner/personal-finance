@@ -2,6 +2,7 @@ using API.Controllers;
 using API.Data;
 using API.Data.Repositories;
 using API.Middleware;
+using API.Services;
 using Dapper;
 using Npgsql;
 
@@ -56,6 +57,7 @@ var initSqlFiles = new[]
 {
     "DB/Init/Tables/Users.sql",
     "DB/Init/Tables/Transactions.sql",
+    "DB/Init/Tables/GlobalSettings.sql",
 };
 
 foreach (var file in initSqlFiles)
@@ -63,6 +65,13 @@ foreach (var file in initSqlFiles)
     var sql = File.ReadAllText(file);
     conn.Execute(sql);
 }
+
+var seedDataFiles = new[]
+{
+    "DB/Init/Seed/TransactionCategories.sql",
+};
+
+SeedData.Seed(seedDataFiles, conn);
 
 app.MapGet("/", () =>
     {
