@@ -1,0 +1,85 @@
+@baseurl = http://localhost:5000
+
+###
+GET {{baseurl}}/api/transactions?userId=1&pageSize=10&pageNumber=1
+
+###
+GET {{baseurl}}/api/transactions/1
+
+###
+GET {{baseurl}}/api/transactions/multiple/1?rowIds=1,2,3
+
+###
+POST {{baseurl}}/api/transactions
+Content-Type: application/json
+
+{
+  "userID": 1,
+  "transactionID": "abc123",
+  "date": "2024-06-01T00:00:00Z",
+  "type": "expense",
+  "origin": "bank",
+  "description": "Lunch",
+  "accountID": 1,
+  "category": "9405",
+  "amount": 12.50,
+  "note": "N/A",
+  "source": "manual"
+}
+
+###
+POST {{baseurl}}/api/transactions/multiple
+Content-Type: application/json
+
+[
+  {
+    "userID": 1,
+    "transactionID": "abc123",
+    "date": "2024-06-01T00:00:00Z",
+    "type": "expense",
+    "origin": "bank",
+    "description": "Lunch",
+    "accountID": 1,
+    "category": "9405",
+    "amount": 12.50,
+    "note": "N/A",
+    "source": "manual"
+  },
+  {
+    "userID": 1,
+    "transactionID": "abc124",
+    "date": "2024-06-02T00:00:00Z",
+    "type": "income",
+    "origin": "cash",
+    "description": "Gift",
+    "accountID": 1,
+    "category": "9405",
+    "amount": 50.00,
+    "note": "",
+    "source": "manual"
+  }
+]
+
+###
+PUT {{baseurl}}/api/transactions/101
+Content-Type: application/json
+
+{
+  "userID": 1,
+  "transactionID": "abc123",
+  "date": "2024-06-01T00:00:00Z",
+  "type": "expense",
+  "origin": "bank",
+  "description": "Lunch updated",
+  "accountID": 2,
+  "category": "Food",
+  "amount": 13.00,
+  "note": "Updated",
+  "source": "manual"
+}
+
+###
+DELETE {{baseurl}}/api/transactions/5
+
+###
+DELETE {{baseurl}}/api/transactions/multiple?rowIds=8,9

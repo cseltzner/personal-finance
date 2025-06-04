@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
 builder.Services.AddScoped<ITransactionAccountRepository, TransactionAccountRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>
@@ -82,5 +83,6 @@ app.MapGet("/", () =>
 
 app.MapTransactionAccountEndpoints();
 app.MapAuthEndpoints();
+app.MapTransactionEndpoints();
 
 app.Run();
