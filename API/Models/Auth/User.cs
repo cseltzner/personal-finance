@@ -28,7 +28,7 @@ public class LoginDto
 
 public class User
 {
-    public string RowID { get; set; }
+    public int RowID { get; set; }
     public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string PasswordHash { get; set; } = string.Empty;

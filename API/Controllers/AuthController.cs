@@ -56,7 +56,7 @@ public static class AuthController
 
             AuthService.Login(new User()
             {
-                RowID = userId.ToString(),
+                RowID = userId,
                 Username = user.Username,
             }, http);
             

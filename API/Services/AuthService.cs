@@ -12,7 +12,7 @@ public static class AuthService
         var claims = new[]
         {
             new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.NameIdentifier, user.RowID)
+            new Claim(ClaimTypes.NameIdentifier, user.RowID.ToString())
         };
 
         var identity = new ClaimsIdentity(claims, "Cookies");

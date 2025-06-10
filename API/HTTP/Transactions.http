@@ -82,4 +82,4 @@ Content-Type: application/json
 DELETE {{baseurl}}/api/transactions/5
 
 ###
-DELETE {{baseurl}}/api/transactions/multiple?rowIds=8,9
+#DELETE {{baseurl}}/api/transactions/multiple?rowIds=8,9

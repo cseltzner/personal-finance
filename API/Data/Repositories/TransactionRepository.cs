@@ -7,7 +7,7 @@ namespace API.Data.Repositories;
 public interface ITransactionRepository
 {
     Task<IEnumerable<Transaction>> GetTransactionsAsync<T>(int userId, Pagination pagination);
-    Task<Transaction> GetTransactionAsync(int transactionId);
+    Task<Transaction?> GetTransactionAsync(int userId, int transactionId);
     Task<int> AddTransactionAsync(TransactionCreateUpdateDTO transaction);
     Task<int> UpdateTransactionAsync(int transactionId, TransactionCreateUpdateDTO transaction);
     Task<int> DeleteTransactionAsync(int transactionId);
@@ -36,17 +36,18 @@ public class TransactionRepository(IDbConnectionFactory dbConnectionFactory) : I
         return await connection.QueryAsync<Transaction>(sql, parameters);
     }
 
-    public async Task<Transaction> GetTransactionAsync(int RowID)
+    public async Task<Transaction?> GetTransactionAsync(int userId, int RowID)
     {
         using var connection = _dbConnectionFactory.CreateConnection();
 
         const string sql = @"
             select rowid, userid, transactionid, date, type, origin, description, accountid, category, amount, note, source, createddate, createdby
             from t_transaction
-            where RowID = @RowID;
+            where RowID = @RowID
+            and userid = @UserId;
         ";
 
-        var parameters = new { RowID = RowID };
+        var parameters = new { RowID = RowID, UserId = userId };
 
         return await connection.QuerySingleOrDefaultAsync<Transaction>(sql, parameters);
     }
