@@ -16,6 +16,24 @@ public class Transaction
     public string Source { get; set; } = string.Empty;
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     public string? CreatedBy { get; set; }
+
+    public TransactionCreateUpdateDTO ToCreateUpdateDTO()
+    {
+        return new TransactionCreateUpdateDTO
+        {
+            UserID = UserID,
+            TransactionID = TransactionID,
+            Date = Date,
+            Type = Type,
+            Origin = Origin,
+            Description = Description,
+            AccountID = AccountID,
+            Category = Category,
+            Amount = Amount,
+            Note = Note,
+            Source = Source
+        };
+    }
 }
 
 public class TransactionCreateUpdateDTO

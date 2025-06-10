@@ -84,5 +84,6 @@ app.MapGet("/", () =>
 app.MapTransactionAccountEndpoints();
 app.MapAuthEndpoints();
 app.MapTransactionEndpoints();
+app.MapTransactionImportEndpoints();
 
 app.Run();
