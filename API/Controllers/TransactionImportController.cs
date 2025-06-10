@@ -50,6 +50,6 @@ public static class TransactionImportController
                 }
                 
                 return Results.Ok(transactions.Count);
-            });
+            }).RequireAuthorization();
     }
 }

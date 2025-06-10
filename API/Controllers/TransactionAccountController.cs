@@ -14,7 +14,7 @@ public static class TransactionAccountController
         {
             var accounts = await repository.GetTransactionAccountsAsync<TransactionAccountDto>(userId, pagination);
             return Results.Ok(accounts);
-        });
+        }).RequireAuthorization();
         
         app.MapGet("/api/transactionaccounts/{userId}/{rowId:int}", async ([FromServices] ITransactionAccountRepository repository, [FromRoute] int userId, [FromRoute] int rowId) =>
         {
@@ -26,7 +26,7 @@ public static class TransactionAccountController
             }
             
             return Results.Ok(account);
-        });
+        }).RequireAuthorization();
         
         app.MapGet("/api/transactionaccounts/multiple/{userId}", async ([FromServices] ITransactionAccountRepository repository, [FromRoute] int userId, [FromQuery] string rowIds) =>
         {
@@ -47,13 +47,13 @@ public static class TransactionAccountController
                 }
             }
             return Results.Ok(accounts);
-        });
+        }).RequireAuthorization();
 
         app.MapPost("/api/transactionaccounts", async ([FromServices] ITransactionAccountRepository repository, [FromBody] TransactionAccountCreateUpdateDto transactionAccount) =>
         {
             var rowId = await repository.AddTransactionAccountAsync(transactionAccount);
             return Results.Created($"/api/transactionaccounts/{rowId}", rowId);
-        });
+        }).RequireAuthorization();
         
         app.MapPost("/api/transactionaccounts/multiple", async ([FromServices] ITransactionAccountRepository repository, [FromBody] TransactionAccountCreateUpdateDto[] transactionAccounts) =>
         {
@@ -64,7 +64,7 @@ public static class TransactionAccountController
                 rowIds.Add(rowId);
             }
             return Results.Created($"/api/transactionaccounts/multiple", rowIds);
-        });
+        }).RequireAuthorization();
 
         app.MapPut("/api/transactionaccounts/{rowId:int}", async ([FromServices] ITransactionAccountRepository repository, [FromRoute] int rowId,
             TransactionAccountCreateUpdateDto transactionAccount) =>
@@ -77,7 +77,7 @@ public static class TransactionAccountController
             }
             
             return Results.Ok(updatedRowId);
-        });
+        }).RequireAuthorization();
 
         app.MapDelete("/api/transactionaccounts/{rowId:int}", async ([FromServices] ITransactionAccountRepository repository, [FromRoute] int rowId) =>
         {
@@ -89,7 +89,7 @@ public static class TransactionAccountController
             }
             
             return Results.Ok(deletedRowId);
-        });
+        }).RequireAuthorization();
         
         app.MapDelete("/api/transactionaccounts/multiple", async ([FromServices] ITransactionAccountRepository repository, [FromQuery] string rowIds) =>
         {
@@ -117,6 +117,6 @@ public static class TransactionAccountController
             }
             
             return Results.Ok(deletedCount);
-        });
+        }).RequireAuthorization();
     }
 }

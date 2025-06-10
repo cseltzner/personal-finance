@@ -26,6 +26,8 @@ builder.Services.AddAuthentication("Cookies")
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Strict;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.ExpireTimeSpan = TimeSpan.FromHours(6);
+        options.SlidingExpiration = true;
     });
 
 builder.Services.AddAuthorization();

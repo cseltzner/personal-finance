@@ -14,7 +14,7 @@ public static class TransactionController
         {
             var transactions = await repository.GetTransactionsAsync<Transaction>(userId, pagination);
             return Results.Ok(transactions);
-        });
+        }).RequireAuthorization();
 
         app.MapGet("/api/transactions/{transactionId:int}",
             async ([FromServices] ITransactionRepository repository, [FromRoute] int transactionId) =>
@@ -28,7 +28,7 @@ public static class TransactionController
                 }
 
                 return Results.Ok(transaction);
-            });
+            }).RequireAuthorization();
 
         app.MapGet("/api/transactions/multiple/{userId}",
             async ([FromServices] ITransactionRepository repository, string rowIds) =>
@@ -52,14 +52,14 @@ public static class TransactionController
                 }
 
                 return Results.Ok(transactions);
-            });
+            }).RequireAuthorization();
 
         app.MapPost("/api/transactions", async ([FromServices] ITransactionRepository repository,
             [FromBody] TransactionCreateUpdateDTO transaction) =>
         {
             var rowId = await repository.AddTransactionAsync(transaction);
             return Results.Created($"/api/transactions/{rowId}", rowId);
-        });
+        }).RequireAuthorization();
 
         app.MapPost("/api/transactions/multiple", async ([FromServices] ITransactionRepository repository,
             [FromBody] TransactionCreateUpdateDTO[] transactions) =>
@@ -72,7 +72,7 @@ public static class TransactionController
             }
 
             return Results.Created($"/api/transactions/multiple", rowIds);
-        });
+        }).RequireAuthorization();
 
         app.MapPut("/api/transactions/{transactionId:int}",
             async ([FromServices] ITransactionRepository repository, [FromRoute] int transactionId,
@@ -86,7 +86,7 @@ public static class TransactionController
                 }
 
                 return Results.Ok(updatedRowId);
-            });
+            }).RequireAuthorization();
 
         app.MapDelete("/api/transactions/{transactionId:int}",
             async ([FromServices] ITransactionRepository repository, [FromRoute] int transactionId) =>
@@ -99,7 +99,7 @@ public static class TransactionController
                 }
 
                 return Results.Ok(deletedRowId);
-            });
+            }).RequireAuthorization();
 
         app.MapDelete("/api/transactions/multiple",
             async ([FromServices] ITransactionRepository repository, [FromQuery] string rowIds) =>
@@ -122,6 +122,6 @@ public static class TransactionController
                 }
 
                 return Results.Ok(new { DeletedCount = deletedCount });
-            });
+            }).RequireAuthorization();
     }
 }

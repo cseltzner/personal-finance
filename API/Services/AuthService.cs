@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using API.Data.Repositories;
 using API.Models.Auth;
 using Microsoft.AspNetCore.Authentication;
 
@@ -18,5 +19,18 @@ public static class AuthService
         var principal = new ClaimsPrincipal(identity);
         await http.SignInAsync("Cookies", principal);
         return true;
+    }
+
+    public static User? GetCurrentUser(HttpContext http, IUserRepository userRepository)
+    {
+        var user = http.User;
+        if (user.Identity?.IsAuthenticated != true)
+            return null;
+
+        var username = user.Identity.Name;
+        if (string.IsNullOrWhiteSpace(username))
+            return null;
+        
+        return userRepository.GetUserByUsernameAsync(username).Result;
     }
 }
