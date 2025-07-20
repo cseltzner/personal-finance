@@ -14,17 +14,17 @@ public static class TransactionImportController
                 [FromServices] ITransactionRepository transactionRepository) =>
             {
                 var importFile = request.Form.Files["importFile"];
-                
+
                 if (importFile == null || importFile.Length == 0)
                 {
                     return Results.BadRequest("No file uploaded.");
                 }
-                
+
                 if (!Enum.IsDefined(typeof(TransactionImportFormat), format))
                 {
                     return Results.BadRequest("Invalid import format specified.");
                 }
-                
+
                 // Validate file type (excel or csv)
                 var allowedExtensions = new[] { ".csv", ".xlsx" };
                 var fileExtension = Path.GetExtension(importFile.FileName).ToLowerInvariant();
@@ -32,7 +32,7 @@ public static class TransactionImportController
                 {
                     return Results.BadRequest("Invalid file type. Only CSV and Excel files are allowed.");
                 }
-                
+
                 // Validate file size (e.g., max 10MB)
                 const long maxFileSize = 10 * 1024 * 1024; // 10 MB
                 if (importFile.Length > maxFileSize)
@@ -41,15 +41,22 @@ public static class TransactionImportController
                 }
 
                 await using var stream = importFile.OpenReadStream();
-                var transactions = importer.Import(stream, format);
 
-                // Insert transactions into DB here...
-                foreach (var transaction in transactions)
+                try
                 {
-                    await transactionRepository.AddTransactionAsync(transaction.ToCreateUpdateDTO());
+                    var transactions = importer.Import(stream, format);
+                    // Insert transactions into DB here...
+                    foreach (var transaction in transactions)
+                    {
+                        await transactionRepository.AddTransactionAsync(transaction.ToCreateUpdateDTO());
+                    }
+
+                    return Results.Ok(transactions.Count);
                 }
-                
-                return Results.Ok(transactions.Count);
+                catch (Exception ex)
+                {
+                    return Results.Problem("Error importing transactions: " + ex.Message);
+                }
             }).RequireAuthorization();
     }
 }
