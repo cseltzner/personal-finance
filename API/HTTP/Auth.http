@@ -25,4 +25,3 @@ Content-Type: application/json
 ###
 GET {{baseurl}}/api/auth/logout HTTP/1.1
 Host: localhost:5000
-Cookie: {{cookie}}
