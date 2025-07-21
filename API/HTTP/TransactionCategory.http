@@ -1,0 +1,35 @@
+@baseurl = http://localhost:5000
+
+###
+GET {{baseurl}}/api/transactioncategories?pageSize=10&pageNumber=1&sort=desc
+
+###
+GET {{baseurl}}/api/transactioncategories/0780
+
+###
+POST {{baseurl}}/api/transactioncategories
+Content-Type: application/json
+Cookie: sessionid=your_cookie_value
+
+{
+  "categoryID": "1234",
+  "name": "Test Category",
+  "type": "expense",
+  "description": "A test category"
+}
+
+###
+PUT {{baseurl}}/api/transactioncategories/1234
+Content-Type: application/json
+Cookie: sessionid=your_cookie_value
+
+{
+  "categoryID": "1234",
+  "name": "Updated Category",
+  "type": "expense",
+  "description": "Updated description"
+}
+
+###
+DELETE {{baseurl}}/api/transactioncategories/1234
+Cookie: sessionid=your_cookie_value

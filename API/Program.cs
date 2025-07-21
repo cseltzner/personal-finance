@@ -3,6 +3,7 @@ using API.Data;
 using API.Data.Repositories;
 using API.Middleware;
 using API.Services;
+using API.Services.Imports.Transactions;
 using Dapper;
 using Npgsql;
 
@@ -17,6 +18,8 @@ builder.Services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
 builder.Services.AddScoped<ITransactionAccountRepository, TransactionAccountRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ITransactionCategoryRepository, TransactionCategoryRepository>();
+builder.Services.AddScoped<TransactionImportService>();
 
 builder.Services.AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>
@@ -98,5 +101,6 @@ app.MapTransactionAccountEndpoints();
 app.MapAuthEndpoints();
 app.MapTransactionEndpoints();
 app.MapTransactionImportEndpoints();
+app.MapTransactionCategoryEndpoints();
 
 app.Run();

@@ -21,7 +21,7 @@ Content-Type: application/json
   "origin": "bank",
   "description": "Lunch",
   "accountID": 1,
-  "category": "9405",
+  "category": "0780",
   "amount": 12.50,
   "note": "N/A",
   "source": "manual"
