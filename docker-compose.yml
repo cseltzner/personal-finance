@@ -26,6 +26,12 @@ services:
     build: ./frontend
     ports:
       - "3000:80"
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app # Dev
+      - /app/node_modules # Dev
 
 volumes:
   pgdata:

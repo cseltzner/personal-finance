@@ -1,8 +1,19 @@
 FROM node:18 AS build
 WORKDIR /app
-COPY . .
-RUN npm install
-RUN npm run build
 
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+#Prod
+# COPY . . 
+
+# RUN npm install
+
+#Prod
+# RUN npm run build 
+
+#Prod
+# FROM nginx:alpine 
+
+#Prod
+# COPY --from=build /app/dist /usr/share/nginx/html 
+
+# Dev
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"] 
