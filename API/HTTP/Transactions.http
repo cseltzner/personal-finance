@@ -1,4 +1,4 @@
-@baseurl = http://localhost:5000
+@baseurl = http://localhost:5058
 
 ###
 GET {{baseurl}}/api/transactions?userId=1&pageSize=10&pageNumber=1

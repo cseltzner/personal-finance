@@ -68,5 +68,16 @@ public static class AuthController
             await http.SignOutAsync("Cookies");
             return Results.Ok();
         });
+
+        app.MapGet("/api/auth/statuscheck", async (HttpContext http) =>
+        {
+            if (http.User.Identity?.IsAuthenticated != true)
+                return Results.Unauthorized();
+
+            return Results.Ok(new {
+                user = http.User.Identity?.Name
+            });
+        }).RequireAuthorization();
+            
     }
 }
