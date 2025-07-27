@@ -6,8 +6,6 @@ export const ProtectedRoute: React.FC<{
 }> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
 
-  console.log({ isAuthenticated, loading });
-
   if (loading) {
     // Todo - Change me to a loading component
     return <div>Loading...</div>;

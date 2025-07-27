@@ -9,7 +9,7 @@ const Button = (props: Props) => {
   return (
     <button
       {...rest}
-      className={`bg-indigo-500 text-white px-4 py-2 rounded-sm hover:bg-indigo-600 transition-colors duration-100 cursor-pointer ${props.className || ""}`}
+      className={`bg-indigo-500 text-white px-4 py-2 rounded-sm hover:bg-indigo-600 transition-colors duration-100 cursor-pointer ${props.disabled ? "opacity-60 !cursor-not-allowed" : ""} ${props.className || ""}`}
       disabled={isLoading || rest.disabled}
     >
       {isLoading ? (
