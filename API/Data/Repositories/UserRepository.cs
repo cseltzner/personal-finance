@@ -9,6 +9,7 @@ public interface IUserRepository
     Task<string> UserNameOrEmailExistsAsync(string userName, string email);
     Task<int> CreateUserAsync(RegisterUser user);
     Task<User?> GetUserByUsernameAsync(string username);
+    Task<User?> GetUserByEmailAsync(string email);
 }
 
 public class UserRepository(IDbConnectionFactory dbConnectionFactory) : IUserRepository
@@ -72,6 +73,22 @@ public class UserRepository(IDbConnectionFactory dbConnectionFactory) : IUserRep
         ";
 
         var parameters = new { Username = username };
+
+        return await connection.QuerySingleOrDefaultAsync<User>(sql, parameters);
+    }
+
+    public async Task<User?> GetUserByEmailAsync(string email)
+    {
+        using var connection = dbConnectionFactory.CreateConnection();
+
+        const string sql = @"
+            select rowid, username, email, passwordhash, firstname, lastname, phone, userrole, createddate, createdby
+            from e_User
+            where email = @Email
+            limit 1;
+        ";
+
+        var parameters = new { Email = email };
 
         return await connection.QuerySingleOrDefaultAsync<User>(sql, parameters);
     }

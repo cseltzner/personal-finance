@@ -10,9 +10,9 @@ public static class AuthController
 {
     public static void MapAuthEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/login", async (LoginDto req, HttpContext http, IUserRepository repo) =>
+        app.MapPost("api/auth/login", async ([FromBody] LoginDto req, HttpContext http, IUserRepository repo) =>
         {
-            var user = await repo.GetUserByUsernameAsync(req.Username);
+            var user = await repo.GetUserByEmailAsync(req.Email);
             if (user is null || !BCrypt.Net.BCrypt.Verify(req.Password, user.PasswordHash))
                 return Results.Unauthorized();
 
