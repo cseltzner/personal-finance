@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import { api } from "../pages/Auth/login/api";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -37,7 +38,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsAuthenticated(true);
     }
 
-    const logout = () => {
+    const logout = async () => {
+        await api.logout();
         setIsAuthenticated(false);
     }
 

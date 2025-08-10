@@ -54,7 +54,7 @@ public static class AuthController
 
             var userId = await repo.CreateUserAsync(user);
 
-            AuthService.Login(new User()
+            await AuthService.Login(new User()
             {
                 RowID = userId,
                 Username = user.Username,
@@ -63,7 +63,7 @@ public static class AuthController
             return Results.Created($"/api/auth/register/{userId}", userId);
         });
         
-        app.MapGet("/api/auth/logout", async (HttpContext http) =>
+        app.MapPost("/api/auth/logout", async (HttpContext http) =>
         {
             await http.SignOutAsync("Cookies");
             return Results.Ok();
