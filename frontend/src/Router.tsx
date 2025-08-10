@@ -19,6 +19,20 @@ export const router = createBrowserRouter([
         </ProtectedRoute>
       </AuthProvider>
     ),
+    children: [
+      {
+        index: true,
+        element: <div>Dashboard</div>,
+      },
+      {
+        path: "/accounts",
+        element: <div>Accounts</div>,
+      },
+      {
+        path: "/transactions",
+        element: <div>Transactions</div>,
+      }
+    ]
   },
   {
     path: "/register",
