@@ -6,7 +6,7 @@ import { useModal } from "../../context/ModalContext"
 const AccountPage = () => {
   const { openModal } = useModal();
   const onAddAccount = () => {
-    openModal(<AccountModal />);
+    openModal(<AccountModal />, "Add New Account");
   }
 
   return (

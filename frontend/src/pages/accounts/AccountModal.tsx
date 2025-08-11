@@ -1,10 +1,12 @@
+import { Box, Typography } from "@mui/material"
 
 const AccountModal = () => {
   return (
-      <div>
-        <h2>Add Account</h2>
-        {/* Form fields for adding an account go here */}
-      </div>
+      <Box>
+        <Typography variant="body1" mb={2}>
+            Test long account text blah
+        </Typography>
+      </Box>
   )
 }
 
