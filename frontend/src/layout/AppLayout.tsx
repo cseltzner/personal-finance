@@ -1,18 +1,34 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import TopBar from "./components/TopBar";
+import { Box, Paper, useTheme } from "@mui/material";
 
 const AppLayout = () => {
+  const theme = useTheme();
   return (
-    <div className="flex h-screen w-screen">
+    <Box
+      display="flex"
+      height="100vh"
+      width="100vw"
+      sx={{ backgroundColor: theme.palette.background.default }}
+    >
       <Sidebar />
-      <div className="flex flex-col flex-1">
+      <Box display="flex" flexDirection="column" flex={1}>
         <TopBar />
-        <main className="flex-1 overflow-auto px-9 py-6">
+        <Box
+          component="main"
+          sx={{
+            flex: 1,
+            overflow: "auto",
+            px: 9,
+            py: 6,
+            borderRadius: 2,
+          }}
+        >
           <Outlet />
-        </main>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

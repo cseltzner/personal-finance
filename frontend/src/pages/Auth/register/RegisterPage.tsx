@@ -1,25 +1,34 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import DollarCircle from "../../../assets/icons/DollarCircle";
-import Button from "../../../components/Button";
-import Input from "../../../components/forms/Input";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { api } from "./api";
+import { Paid } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Paper,
+  CircularProgress,
+  Alert,
+  useTheme,
+} from "@mui/material";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [registerForm, setRegisterForm] = useState({
     email: "",
     password: "",
     confirmPassword: "",
     emailTouched: false,
     passwordTouched: false,
-    confirmPasswordTouched: false
-  })
+    confirmPasswordTouched: false,
+  });
 
   const [registerError, setRegisterError] = useState({
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -54,7 +63,10 @@ const RegisterPage = () => {
     // Validate password match
     if (name === "confirmPassword") {
       if (value !== registerForm.password) {
-        setRegisterError((prev) => ({ ...prev, confirmPassword: "Passwords do not match" }));
+        setRegisterError((prev) => ({
+          ...prev,
+          confirmPassword: "Passwords do not match",
+        }));
         return;
       }
     }
@@ -64,8 +76,10 @@ const RegisterPage = () => {
   };
 
   const handleSubmit = async () => {
-    const hasError = Object.values(registerError).some(error => error !== "");
-    const hasEmptyField = Object.values(registerForm).some(value => typeof(value) === "string" && value === "");
+    const hasError = Object.values(registerError).some((error) => error !== "");
+    const hasEmptyField = Object.values(registerForm).some(
+      (value) => typeof value === "string" && value === ""
+    );
 
     if (hasError || hasEmptyField) return;
 
@@ -76,72 +90,145 @@ const RegisterPage = () => {
         email: registerForm.email,
         password: registerForm.password,
         firstName: "",
-        lastName: ""
+        lastName: "",
       });
 
       // Redirect to home
       navigate("/", { replace: true });
     } catch (error: any) {
-      const errorMessage = error.response?.data || "Registration failed. Please try again.";
+      const errorMessage =
+        error.response?.data || "Registration failed. Please try again.";
 
       setRegisterSubmissionError(errorMessage);
     } finally {
       setLoading(false);
     }
-
-  }
+  };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="flex flex-col items-center w-full max-w-sm">
-        <div className="flex gap-1 items-center">
-          <DollarCircle className="size-10 text-indigo-600" />
-          <h1 className="text-3xl tracking-wide font-serif font-bold text-zinc-800">CMoney</h1>
-        </div>
-        <h2 className="text-lg mt-4 text-zinc-600">Sign up to get started</h2>
-        <form className="w-full" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-          <Input
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+      bgcolor={theme.palette.background.default}
+      position="relative"
+      top={-32}
+    >
+      <Paper
+        elevation={1}
+        sx={{
+          p: 12,
+          width: "100%",
+          maxWidth: 500,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Box display="flex" gap={2} alignItems="center" mb={1}>
+          <Paid color="primary" fontSize="large" />
+          <Typography
+            variant="h4"
+            fontFamily="serif"
+            fontWeight="bold"
+            color="text.primary"
+          >
+            CMoney
+          </Typography>
+        </Box>
+        <Typography variant="subtitle1" color="text.secondary" mb={2}>
+          Sign up to get started
+        </Typography>
+        <Box
+          marginTop={2}
+          component="form"
+          width="100%"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
+          <TextField
             id="email"
             name="email"
             label="Email Address"
             placeholder="email@example.com"
-            containerClassName="w-full mt-8"
             type="email"
             value={registerForm.email}
             onChange={handleFormChange}
             onBlur={handleBlur}
-            errorText={registerError.email}
+            fullWidth
+            margin="dense"
+            autoComplete="email"
+            error={!!registerError.email}
+            helperText={registerError.email || " "}
           />
-          <Input
+          <TextField
             id="password"
             name="password"
             label="Password"
             placeholder="Enter your password"
-            containerClassName="w-full mt-2"
             type="password"
             value={registerForm.password}
             onChange={handleFormChange}
             onBlur={handleBlur}
-            errorText={registerError.password}
+            fullWidth
+            margin="dense"
+            autoComplete="new-password"
+            error={!!registerError.password}
+            helperText={registerError.password || " "}
           />
-          <Input
+          <TextField
             id="confirmPassword"
             name="confirmPassword"
             label="Confirm Password"
             placeholder="Re-enter your password"
-            containerClassName="w-full mt-2"
             type="password"
             value={registerForm.confirmPassword}
             onChange={handleFormChange}
             onBlur={handleBlur}
-            errorText={registerError.confirmPassword}
+            fullWidth
+            margin="dense"
+            autoComplete="new-password"
+            error={!!registerError.confirmPassword}
+            helperText={registerError.confirmPassword || " "}
           />
-          {registerSubmissionError && <p className="text-red-500 text-lg font-semibold mb-4">{registerSubmissionError}</p>}
-          <Button className="w-full mt-4" type="submit" disabled={Object.values(registerError).some(error => error !== "")} isLoading={loading}>Sign Up</Button>
-        </form>
-        <p className="mt-4">Already have an account? <Link to="/login" className="text-indigo-600 hover:text-indigo-900">Log in</Link></p>
-      </div>
-    </div>
+          {registerSubmissionError && (
+            <Alert severity="error" sx={{ mt: 2, mb: 1 }}>
+              {registerSubmissionError}
+            </Alert>
+          )}
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            size="large"
+            sx={{ mt: 4 }}
+            disabled={
+              loading ||
+              Object.values(registerError).some((error) => error !== "")
+            }
+            startIcon={loading ? <CircularProgress size={20} /> : null}
+          >
+            {loading ? "Signing Up..." : "Sign Up"}
+          </Button>
+        </Box>
+        <Typography variant="body2" sx={{ mt: 6 }}>
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            style={{
+              color: theme.palette.primary.main,
+              textDecoration: "none",
+            }}
+          >
+            Log in
+          </Link>
+        </Typography>
+      </Paper>
+    </Box>
   );
 };
 

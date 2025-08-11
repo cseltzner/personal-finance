@@ -1,34 +1,55 @@
 import { Link, NavLink } from "react-router-dom";
-import DollarCircle from "../../assets/icons/DollarCircle";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import { sidebarLinks } from "../sidebarLinks";
+import { Paid } from "@mui/icons-material";
 
 const Sidebar = () => {
   return (
-    <aside className="w-64 bg-zinc-200 flex flex-col p-4">
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: 240,
+        flexShrink: 0,
+        [`& .MuiDrawer-paper`]: {
+          width: 240,
+          boxSizing: "border-box",
+          backgroundColor: "background.default",
+          borderRight: "none",
+        },
+      }}
+    >
       <Link
         to="/"
-        className="text-2xl font-semibold font-serif flex gap-1 items-center"
+        className="text-2xl font-semibold font-serif flex gap-2 items-center p-4"
       >
-        <DollarCircle className="size-8 text-indigo-600" />
+        <Paid sx={{ fontSize: 32, color: "primary.main" }} />
         <span>CMoney</span>
       </Link>
-      <nav className="flex flex-col gap-3 mt-4">
+      <List sx={{ mt: 2 }}>
         {sidebarLinks.map((link) => (
-          <NavLink
-            key={link.label}
-            to={link.to}
-            className={({ isActive }) =>
-              `flex gap-3 items-center text-lg px-3 py-2 rounded font-semibold ${
-                isActive ? "bg-zinc-300" : "text-zinc-700 hover:text-indigo-600"
-              }`
-            }
-          >
-            {link.icon}
-            <span>{link.label}</span>
-          </NavLink>
+          <ListItem key={link.label} disablePadding>
+            <ListItemButton
+              component={NavLink}
+              to={link.to}
+              sx={{
+                borderRadius: 1,
+                "&.active": {
+                  backgroundColor: "surface.secondary",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>{link.icon}</ListItemIcon>
+              <ListItemText primary={link.label} />
+            </ListItemButton>
+          </ListItem>
         ))}
-      </nav>
-    </aside>
+      </List>
+    </Drawer>
   );
 };
 

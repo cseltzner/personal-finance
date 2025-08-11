@@ -1,16 +1,14 @@
-import Home from "../assets/icons/Home" 
-import BuildingLibrary from "../assets/icons/BuildingLibrary"
-import CreditCard from "../assets/icons/CreditCard"
+import { AccountBalance, CreditCard, Dashboard } from "@mui/icons-material"
 
 export const sidebarLinks = [{
     to: '/',
     label: 'Dashboard',
-    icon: <Home />
+    icon: <Dashboard />
 },
 {
     to: "/accounts",
     label: "Accounts",
-    icon: <BuildingLibrary />
+    icon: <AccountBalance />
 },
 {
     to: "/transactions",
