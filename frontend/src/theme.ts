@@ -2,6 +2,9 @@ import { createTheme } from "@mui/material";
 
 const theme = createTheme({
     spacing: 4, // 1 spacing unit = 4px (same as Tailwind's defaults)
+    typography: {
+        fontFamily: "Libre Franklin, Arial, sans-serif",
+    },
     // Using Tailwind CSS color palette
     palette: {
     primary: {

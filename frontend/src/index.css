@@ -24,8 +24,24 @@
   font-display: swap;  
 }
 
+@font-face {
+  font-family: 'Libre Franklin';
+  src: url('./assets/fonts/Libre_Franklin/LibreFranklin-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Franklin';
+  src: url('./assets/fonts/Libre_Franklin/LibreFranklin-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
-  --font-sans: 'Lato', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-sans: 'Libre Franklin', system-ui, Avenir, Helvetica, Arial, sans-serif;
   --font-serif: 'Domine', Georgia, Cambria, Times New Roman, Times, serif;
   --font-mono: 'Courier New', Courier, monospace;
 }

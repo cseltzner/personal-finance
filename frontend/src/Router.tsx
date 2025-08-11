@@ -4,6 +4,7 @@ import RegisterPage from "./pages/Auth/register/RegisterPage";
 import { AuthProvider } from "./context/AuthContext";
 import LoginPage from "./pages/Auth/login/LoginPage";
 import AppLayout from "./layout/AppLayout";
+import AccountPage from "./pages/accounts/AccountPage";
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/accounts",
-        element: <div>Accounts</div>,
+        element: <AccountPage />,
       },
       {
         path: "/transactions",
