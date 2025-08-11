@@ -3,11 +3,14 @@ import './App.css'
 import { router } from './Router'
 import { ThemeProvider } from '@mui/material'
 import theme from './theme'
+import { ModalProvider } from './context/ModalContext'
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
+      <ModalProvider>
+        <RouterProvider router={router} />
+      </ModalProvider>
     </ThemeProvider>
   )
 }
