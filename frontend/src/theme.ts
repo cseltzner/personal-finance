@@ -9,37 +9,37 @@ const theme = createTheme({
     palette: {
     primary: {
       light: '#a5b4fc', // indigo-300
-      main:  '#6366f1', // indigo-500
+      main:  '#4f39f6', // indigo-600
       dark:  '#4338ca', // indigo-700
       contrastText: '#ffffff',
     },
     secondary: {
       light: '#6ee7b7', // emerald-300
-      main:  '#10b981', // emerald-500
+      main:  '#009966', // emerald-600
       dark:  '#047857', // emerald-700
       contrastText: '#ffffff',
     },
     error: {
       light: '#fca5a5', // red-300
-      main:  '#ef4444', // red-500
+      main:  '#e7000b', // red-600
       dark:  '#b91c1c', // red-700
       contrastText: '#ffffff',
     },
     warning: {
       light: '#fcd34d', // amber-300
-      main:  '#f59e0b', // amber-500
+      main:  '#e17100', // amber-600
       dark:  '#b45309', // amber-700
       contrastText: '#000000',
     },
     info: {
       light: '#93c5fd', // blue-300
-      main:  '#3b82f6', // blue-500
+      main:  '#155dfc', // blue-600
       dark:  '#1d4ed8', // blue-700
       contrastText: '#ffffff',
     },
     success: {
       light: '#86efac', // green-300
-      main:  '#22c55e', // green-500
+      main:  '#00a63e', // green-600
       dark:  '#15803d', // green-700
       contrastText: '#ffffff',
     },
