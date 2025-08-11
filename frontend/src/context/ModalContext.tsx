@@ -31,8 +31,9 @@ export function ModalProvider({ children }: { children: ReactNode }) {
             transform: "translate(-50%, -50%)",
             bgcolor: "background.paper",
             boxShadow: 24,
+            border: "2px solid #000", // Not 100% sure if I want to keep this or not - Possibly remove later
             borderRadius: 2,
-            p: 3,
+            p: 6,
             minWidth: 300,
           }}
         >
